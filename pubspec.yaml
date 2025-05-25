@@ -1,4 +1,4 @@
-name: chatapp
+name: ChatConnect
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -37,6 +37,15 @@ dependencies:
   flutter_svg:  #for svg
   slide_to_act:
   get:
+  firebase_core: #firebase
+  firebase_auth: #firebase authentication
+  cloud_firestore: #cloud storage
+  image_picker:
+  firebase_storage: #save doc,images
+  http:
+  uuid: ^4.4.2 #generate random id
+  intl:
+
 
 dev_dependencies:
   flutter_test:

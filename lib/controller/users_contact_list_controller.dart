@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../model/user_model.dart';
@@ -6,6 +7,8 @@ import '../model/user_model.dart';
 
 class UsersContactListController extends GetxController {
   RxList<UserModel> usersList = <UserModel>[].obs;
+
+  final currentUserId=FirebaseAuth.instance.currentUser!.uid;
 
   Future<void> getAllUsersContact() async {
     try {

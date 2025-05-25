@@ -6,13 +6,31 @@ import 'package:intl/intl.dart';
 
 class ChatScreen extends StatelessWidget {
   final UserModel selectedUsersData;
-  const ChatScreen({super.key, required this.selectedUsersData});
+   ChatScreen({super.key, required this.selectedUsersData});
+
+  final ScrollController _scrollController = ScrollController();
+
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     ChatScreenController chatScreenController = Get.put(ChatScreenController());
 
     TextEditingController chatMessageController = TextEditingController();
+
+
+
 
     return Scaffold(
       backgroundColor: Colors.deepPurple[700],
@@ -23,7 +41,13 @@ class ChatScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                 radius: 18,
-                backgroundImage: AssetImage("assets/images/avatar-boy-2.jpg"),
+                // backgroundImage: selectedUsersData.profileImage!.isNotEmpty && selectedUsersData.profileImage.toString()!="" ? NetworkImage(selectedUsersData.profileImage.toString()) : AssetImage("assets/images/avatar-boy-2.jpg"),
+
+                backgroundImage: (selectedUsersData.profileImage != null && selectedUsersData.profileImage!.isNotEmpty)
+                    ? NetworkImage(selectedUsersData.profileImage!)
+                    : AssetImage("assets/images/avatar-boy-2.jpg") as ImageProvider,
+
+
               ),
             ),
 
@@ -50,7 +74,7 @@ class ChatScreen extends StatelessWidget {
         actions: [],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 100),
 
         child: StreamBuilder(
           stream: chatScreenController.receiveMessages(
@@ -71,8 +95,9 @@ class ChatScreen extends StatelessWidget {
             }
 
             final msgList = snapshot.data!;
-
+            WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
             return ListView.builder(
+              controller: _scrollController,
               itemCount: msgList.length,
               itemBuilder: (context, index) {
                 final msg = msgList[index];
@@ -117,7 +142,7 @@ class ChatScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            msg.message.toString(),
+                            msg.message.toString()??"aaaa",
                             style: TextStyle(color: Colors.white,),
                           ),
                         ),
@@ -128,7 +153,8 @@ class ChatScreen extends StatelessWidget {
                             children: [
 
                               Text(formattedTime,style: TextStyle(
-                                color: Colors.white
+                                color: Colors.white,
+                                fontSize: 10
                               ),),
                             ],
                           ),

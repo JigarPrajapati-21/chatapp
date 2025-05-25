@@ -115,7 +115,16 @@ class _UsersContactListScreenState extends State<UsersContactListScreen> {
 
                       // Get.toNamed("/ChatScreen", arguments: usersContactListController.usersList[index]);
 
-                      Get.to(ChatScreen( selectedUsersData: usersContactListController.usersList[index],));
+
+                      print("__________________________");
+                      print(usersContactListController.usersList[index]);
+                      print("__________________________");
+
+                      // Get.to(ChatScreen( selectedUsersData: usersContactListController.usersList[index],));
+
+                      Get.to(() => ChatScreen(selectedUsersData: usersContactListController.usersList[index]));
+
+
 
                     },
                     child: Card(
@@ -130,7 +139,7 @@ class _UsersContactListScreenState extends State<UsersContactListScreen> {
                         ),
 
                         title: Text(
-                          usersContactListController.usersList[index].name.toString(),
+                      usersContactListController.currentUserId==usersContactListController.usersList[index].id  ? "${usersContactListController.usersList[index].name} (You)"  :usersContactListController.usersList[index].name.toString(),
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
